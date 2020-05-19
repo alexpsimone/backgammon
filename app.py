@@ -160,8 +160,7 @@ def token_move_final(player1_turn, player1_board, player2_board):
                 move_options.remove(token_pos)
                 print("Red user score is now: " + str(red_score))
             else:
-                user_selec_is_higher = [1 for i in range(len(move_options)) if token_pos > move_options[i]]
-                print("user_selec_is_higher: " + str(user_selec_is_higher))
+                user_selec_is_higher = [1 for i in range(0, len(move_options)) if token_pos > move_options[i]]
                 if len(user_selec_is_higher) == len(move_options):
                     token_new_pos = int(input("Select new position for this token: "))
                     if token_new_pos > token_pos:
@@ -177,7 +176,6 @@ def token_move_final(player1_turn, player1_board, player2_board):
                         print("You have to move a token based on the dice roll values! Try again!")
                 elif len(user_selec_is_higher) == 0:
                     tokens_in_higher_pos = [1 for i in range(token_pos, 6) if player1_board[i] > 1]
-                    print("tokens_in_higher_pos: " + str(tokens_in_higher_pos))
                     if len(tokens_in_higher_pos) > 0:
                         print("You cannot remove that token! You must move a token from a higher position on the board.")
                     else:
@@ -186,7 +184,6 @@ def token_move_final(player1_turn, player1_board, player2_board):
                         move_options.remove(max(move_options))
                         print("Red user score is now: " + str(red_score))
                         return move_options, red_score
-                # elif 0 < sum(user_selec_is_higher) < len(move_options):
                 else:
                     tokens_in_higher_pos = [1 for i in range(token_pos, 6) if player1_board[i] > 1]
                     if len(tokens_in_higher_pos) == 0:
@@ -200,7 +197,7 @@ def token_move_final(player1_turn, player1_board, player2_board):
                             print("You can't move your token in that direction! Try again!")
                         elif token_new_pos < 1:
                             print("You can't move your token off the board like that! Try again!")
-                        elif (token_new_pos-token_pos) in move_options:
+                        elif (token_pos-token_new_pos) in move_options:
                             player1_board[token_pos - 1] -= 1
                             player1_board[token_new_pos - 1] += 1
                             move_options.remove(token_pos - token_new_pos)
@@ -218,8 +215,7 @@ def token_move_final(player1_turn, player1_board, player2_board):
                 print("Black user score is now: " + str(black_score))
                 return move_options, black_score
             else:
-                user_selec_is_higher = [1 for i in range(len(move_options)) if (25 - token_pos) > move_options[i]]
-                print("user_selec_is_higher: " + str(user_selec_is_higher))
+                user_selec_is_higher = [1 for i in range(0, len(move_options)) if (25 - token_pos) > move_options[i]]
                 if len(user_selec_is_higher) == len(move_options):
                     token_new_pos = int(input("Select new position for this token: "))
                     if token_new_pos < token_pos:
@@ -235,7 +231,6 @@ def token_move_final(player1_turn, player1_board, player2_board):
                         print("You have to move a token based on the dice roll values! Try again!")
                 elif len(user_selec_is_higher) == 0:
                     tokens_in_higher_pos = [1 for i in range(19, token_pos) if player2_board[i - 1] > 1]
-                    print("tokens_in_higher_pos: " + str(tokens_in_higher_pos))
                     if sum(tokens_in_higher_pos) > 0:
                         print("You cannot remove that token! You must move a token from a lower position on the board.")
                     else:
@@ -244,7 +239,6 @@ def token_move_final(player1_turn, player1_board, player2_board):
                         move_options.remove(max(move_options))
                         print("Black user score is now: " + str(black_score))
                         return move_options, black_score
-                # elif 0 < sum(user_selec_is_higher) < len(move_options):
                 else:
                     tokens_in_higher_pos = [1 for i in range(19, token_pos) if player2_board[i - 1] > 1]
                     if len(tokens_in_higher_pos) == 0:

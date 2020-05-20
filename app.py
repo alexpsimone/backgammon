@@ -19,16 +19,10 @@ def determine_turn_order():
     black_player_turn = False
     while red_player_turn == False and black_player_turn == False:
         # Die roll values are defined as a random integer between 1 and 6.
-        # If the user types in something other than "roll", then prompt them to try again.
-        red_entry = input("Red player, type \"roll\" to roll die: ")
-        while red_entry != "roll":
-            red_entry = input("Try again! Red player, type \"roll\" to roll die: ")
+        input("Red player, press enter to roll die. ")
         die1 = randint(1, 6)
         print("Red player rolled a " + str(die1))
-
-        black_entry = input("Black player, type \"roll\" to roll die: ")
-        while black_entry != "roll":
-            black_entry = input("Try again! Black player, type \"roll\" to roll die: ")
+        input("Black player, press enter to roll die. ")
         die2 = randint(1, 6)
         print("Black player rolled a " + str(die2))
         # The player who rolls the higher number goes first. If roll values are equal, then prompt players to try again.
@@ -66,11 +60,8 @@ def player_rolls():
         player = "Red"
     else:
         player = "Black"
-    # Prompt active player to roll the die.
-    # If the user types in something other than "roll", then prompt them to try again.
-    entry = input(player + " player, type \"roll\" to roll die: ")
-    while entry != "roll":
-        entry = input("Try again! " + player + " player, type \"roll\" to roll die: ")
+    # Prompt active player to roll the dice.
+    input(player + " player, press enter to roll dice. ")
     die1 = randint(1, 6)
     die2 = randint(1, 6)
     if die1 == die2:
@@ -267,37 +258,50 @@ def token_move_bar(player1_turn, player1_board, player2_board):
     global red_bar
     global black_bar
     open_positions_return_from_bar = []
-    token_new_pos = int(input("Select a position to move the BAR token to: "))
+    available_bar_moves = []
     if player1_turn:
         positions_we_care_about = [19, 20, 21, 22, 23, 24]
         for i in positions_we_care_about:
-            if player2_board[i-1] <= 1:
-                open_positions_return_from_bar.append(i)
-        if len(open_positions_return_from_bar) == 0:
+            if player2_board[i-1] <= 1 and (25 - i) in move_options:
+                available_bar_moves.append(i)
+                print(available_bar_moves)
+        if len(available_bar_moves) == 0:
+            while len(move_options) > 0:
+                move_options.pop()
             print("No valid moves! Sorry, your turn is over!")
         else:
-            if token_new_pos in open_positions_return_from_bar and 25 - token_new_pos in move_options:
+            token_new_pos = int(input("Select a position to move the BAR token to: "))
+            if token_new_pos in available_bar_moves:
+                if player2_board[token_new_pos-1] == 1:
+                    player2_board[token_new_pos-1] -= 1
+                    black_bar += 1
+                    print("Black player token goes to BAR!")
                 player1_board[token_new_pos-1] += 1
                 red_bar -= 1
                 move_options.remove(25 - token_new_pos)
-            elif token_new_pos in open_positions_return_from_bar:
-                print("You have to move a token based on the dice roll values! Try again!")
             else:
                 print("You can't move a token there from BAR! Try again!")
     else:
         positions_we_care_about = [1, 2, 3, 4, 5, 6]
         for i in positions_we_care_about:
-            if player1_board[i - 1] <= 1:
+            if player1_board[i-1] <= 1 and i in move_options:
                 open_positions_return_from_bar.append(i)
-        if len(open_positions_return_from_bar) == 0:
+                available_bar_moves.append(i)
+                print(available_bar_moves)
+        if len(available_bar_moves) == 0:
+            while len(move_options) > 0:
+                move_options.pop()
             print("No valid moves! Sorry, your turn is over!")
         else:
-            if token_new_pos in open_positions_return_from_bar and token_new_pos in move_options:
+            token_new_pos = int(input("Select a position to move the BAR token to: "))
+            if token_new_pos in available_bar_moves:
+                if player1_board[token_new_pos-1] == 1:
+                    player1_board[token_new_pos-1] -= 1
+                    red_bar += 1
+                    print("Red player token goes to BAR!")
                 player2_board[token_new_pos - 1] += 1
                 black_bar -= 1
                 move_options.remove(token_new_pos)
-            elif token_new_pos in open_positions_return_from_bar:
-                print("You have to move a token based on the dice roll values! Try again!")
             else:
                 print("You can't move a token there from BAR! Try again!")
 
@@ -326,8 +330,6 @@ def determine_game_state(player1_turn):
                 game_state = "final"
             else:
                 game_state = "normal"
-    print("Game state is: " + game_state + ". " \
-          + "Red bar is: " + str(red_bar) + " and black bar is: " + str(black_bar) + ".")
     return game_state
 
 
@@ -340,7 +342,7 @@ def token_move_redux():
     global black_score
     while len(move_options) > 0:
         if red_score < 15 and black_score < 15:
-            print("MOVES AVAILABLE: " + str(move_options))
+            print("Moves Available: " + str(move_options))
             determine_game_state(red_player_turn)
             if game_state == "bar":
                 token_move_bar(red_player_turn, red_board, black_board)
@@ -376,7 +378,6 @@ def token_move_main(player1_board, player2_board):
                     player1_board[token_pos - 1] -= 1
                     player2_board[token_new_pos - 1] -= 1
                     print("Black player token goes to BAR!")
-                    print(str(black_bar))
                     move_options.remove(x)
                     return move_options
                 else:
@@ -405,7 +406,6 @@ def token_move_main(player1_board, player2_board):
                     player2_board[token_pos - 1] -= 1
                     player1_board[token_new_pos - 1] -= 1
                     print("Red player token goes to BAR!")
-                    print(str(red_bar))
                     x = abs(int(token_new_pos - token_pos))
                     move_options.remove(x)
                     return move_options

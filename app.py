@@ -78,23 +78,22 @@ def player_rolls():
 ###############################################################################################################
 ###############################################################################################################
 
-# Initialize number of tokens in play, and their locations, for both players.
 # Note that I've effectively "unwrapped" a traditional backgammon board into one long line.
 # The convention for spaces on the board is consistent between players/numbering of position is not directional.
 
-
-# For each position on the board, look to see if there are any red or black tokens in play, and print their locations.
 def board_update(board_array, player1_array, player2_array):
+    """Look to see if there are any red or black tokens in play and print their locations."""
+
     for i in range(len(board_array)):
         if player1_array[i] > 0:
-            board_array[i] = "R:0" + str(player1_array[i])
+            board_array[i] = f'R:0 {player1_array[i]}'
         elif player2_array[i] > 0:
-            board_array[i] = "B:0" + str(player2_array[i])
+            board_array[i] = f'B:0 {player2_array[i]}'
         else:
             if i < 12:
-                board_array[i] = "    "
+                board_array[i] = '    '
             else:
-                board_array[i] = "____"
+                board_array[i] = '____'
     return board_array
 
 

@@ -119,18 +119,19 @@ def print_board(zone1, zone2, zone3, zone4, zone5, zone6, zone7):
 ############################################__MOVING TOKENS__##################################################
 ###############################################################################################################
 ###############################################################################################################
-def determine_if_final(player_board):
-    global is_final
-    global red_player_turn
+
+def determine_if_final(red_player_turn, player_board):
+    """For a given player, check if there are any tokens outside the arrangement to start removing tokens from the board"""
+
     if red_player_turn:
         is_final_array = [player_board[i] for i in range(6, 24)]
     else:
         is_final_array = [player_board[i] for i in range(0, 18)]
+
     if sum(is_final_array) == 0:
-        is_final = True
-    else:
-        is_final = False
-    return is_final
+        return True
+    
+    return False
 
 def token_move_final(player1_turn, player1_board, player2_board):
     global move_options
@@ -300,32 +301,27 @@ def token_move_bar(player1_turn, player1_board, player2_board):
                 print("You can't move a token there from BAR! Try again!")
 
 
-def determine_game_state(player1_turn):
+def determine_game_state(red_player_turn, red_board, black_board):
     global game_state
     global red_bar
     global black_bar
-    global red_board
-    global black_board
-    if player1_turn:
+
+    if red_player_turn:
         if red_bar > 0:
-            game_state = "bar"
+            return "bar"
         else:
-            determine_if_final(red_board)
-            if is_final:
-                game_state = "final"
+            if determine_if_final(red_player_turn, red_board):
+                return "final"
             else:
-                game_state = "normal"
+                return "normal"
     else:
         if black_bar > 0:
-            game_state = "bar"
+            return "bar"
         else:
-            determine_if_final(black_board)
-            if is_final:
-                game_state = "final"
+            if determine_if_final(red_player_turn, black_board):
+                return "final"
             else:
-                game_state = "normal"
-    return game_state
-
+                return "normal"
 
 def token_move_redux(move_options):
     global game_state
@@ -337,7 +333,7 @@ def token_move_redux(move_options):
     while len(move_options) > 0:
         if red_score < 15 and black_score < 15:
             print("Moves Available: " + str(move_options))
-            determine_game_state(red_player_turn)
+            determine_game_state(red_player_turn, red_board, black_board)
             if game_state == "bar":
                 token_move_bar(red_player_turn, red_board, black_board)
             elif game_state == "final":

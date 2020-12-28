@@ -46,36 +46,30 @@ def determine_turn_order():
 ###############################################################################################################
 ###############################################################################################################
 
-die1 = 0
-die2 = 0
-num_moves = 0
-move_options = []
 x = 0
 
 def player_rolls():
-    global num_moves
-    global move_options
-    global die1
-    global die2
+    """Simulate 2 dice being rolled and populate a list with turn options."""
+
+    move_options = []
+
     if red_player_turn:
         player = "Red"
     else:
         player = "Black"
     # Prompt active player to roll the dice.
-    input(player + " player, press enter to roll dice. ")
+    input(f'{player} player, press enter to roll dice. ')
     die1 = randint(1, 6)
     die2 = randint(1, 6)
+
     if die1 == die2:
         num_moves = 4
-        move_options.append(die1)
-        move_options.append(die1)
-        move_options.append(die1)
-        move_options.append(die1)
+        move_options.extend([die1, die1, die1, die1])
     else:
         num_moves = 2
-        move_options.append(die1)
-        move_options.append(die2)
-    return move_options, die1, die2, num_moves
+        move_options.extend([die1, die2])
+
+    return {'move_options': move_options, 'die1': die1, 'die2': die2, 'num_moves': num_moves}
 
 
 ###############################################################################################################
@@ -334,7 +328,7 @@ def determine_game_state(player1_turn):
     return game_state
 
 
-def token_move_redux():
+def token_move_redux(move_options):
     global game_state
     global red_player_turn
     global red_board
@@ -495,17 +489,23 @@ board_flex_F = "| /_" + pos[23] + "_\ /_" + pos[22] + "_\ /_" + pos[21] + "_\ /_
 is_final = False
 
 while red_score < 15 and black_score < 15:
-    player_rolls()
+    play_dict = player_rolls()
+    die1 = play_dict['die1']
+    die2 = play_dict['die2']
+    num_moves = play_dict['num_moves']
+    move_options = play_dict['move_options']
+
+    # {'move_options': move_options, 'die1': die1, 'die2': die2, 'num_moves': num_moves}
     print_board(board_static_A, board_flex_B, board_static_C, board_flex_D,
                 board_static_E, board_flex_F, board_static_G)
     if red_player_turn:
-        print("Red player rolled a " + str(die1) + " and a " + str(die2) + ".")
-        print("Red player, you have " + str(num_moves) + " moves this turn.")
+        print(f'Red player rolled a {die1} and a {die2}.')
+        print(f'Red player, you have {num_moves} moves this turn.')
     else:
-        print("Black player rolled a " + str(die1) + " and a " + str(die2) + ".")
-        print("Black player, you have " + str(num_moves) + " moves this turn.")
+        print(f'Black player rolled a {die1} and a {die2}.')
+        print(f'Black player, you have {num_moves} moves this turn.')
 
-    token_move_redux()
+    token_move_redux(move_options)
 
     if red_player_turn:
         red_player_turn = False

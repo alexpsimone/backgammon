@@ -13,10 +13,11 @@ from random import randint
 
 
 def determine_turn_order():
-    global red_player_turn
-    global black_player_turn
+    """Determine if red player or black player goes first."""
+
     red_player_turn = False
     black_player_turn = False
+
     while red_player_turn == False and black_player_turn == False:
         # Die roll values are defined as a random integer between 1 and 6.
         input("Red player, press enter to roll die. ")
@@ -30,11 +31,11 @@ def determine_turn_order():
         if die1 > die2:
             print("Red player rolled a higher number. Red player goes first!")
             red_player_turn = True
-            return red_player_turn
+            return (red_player_turn, black_player_turn)
         elif die2 > die1:
             print("Black player rolled a higher number. Black player goes first!")
             black_player_turn = True
-            return black_player_turn
+            return (red_player_turn, black_player_turn)
         else:
             print("Both players rolled the same value. Try again!")
 
@@ -470,8 +471,14 @@ board_static_G = "|_____________________________________________________________
                  "<---<---<---<---<---<---<---<-BLACK PLAYER MOVES IN THIS DIRECTION--<---<---<---<---<---<---<---<---<---<---<---<-\n" \
                  "             "
 
-# Actual game play starts here.
-determine_turn_order()
+# Call determine_turn_order to decide which player starts the game.
+red_player_turn = False
+black_player_turn = False
+
+if determine_turn_order() == (True, False):
+    red_player_turn = True
+else:
+    black_player_turn = True
 
 board_update(pos, red_board, black_board)
 

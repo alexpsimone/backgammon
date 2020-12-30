@@ -168,7 +168,7 @@ def token_move_final(player1_turn, player1_board, player2_board):
                         red_score += 1
                         player1_board[token_pos - 1] -= 1
                         move_options.remove(max(move_options))
-                        print("Red user score is now: " + str(red_score))
+                        print(f'Red user score is now: {red_score}')
                         return move_options, red_score
                 else:
                     tokens_in_higher_pos = [1 for i in range(token_pos, 6) if player1_board[i] > 1]
@@ -176,7 +176,7 @@ def token_move_final(player1_turn, player1_board, player2_board):
                         red_score += 1
                         player1_board[token_pos - 1] -= 1
                         move_options.remove(max(move_options))
-                        print("Red user score is now: " + str(red_score))
+                        print(f'Red user score is now: {red_score}')
                     else:
                         token_new_pos = int(input("Select new position for this token: "))
                         if token_new_pos > token_pos:
@@ -198,7 +198,7 @@ def token_move_final(player1_turn, player1_board, player2_board):
                 black_score += 1
                 player2_board[token_pos - 1] -= 1
                 move_options.remove(25 - token_pos)
-                print("Black user score is now: " + str(black_score))
+                print(f'Black user score is now: {black_score}')
                 return move_options, black_score
             else:
                 user_selec_is_higher = [1 for i in range(0, len(move_options)) if (25 - token_pos) > move_options[i]]
@@ -223,7 +223,7 @@ def token_move_final(player1_turn, player1_board, player2_board):
                         black_score += 1
                         player2_board[token_pos - 1] -= 1
                         move_options.remove(max(move_options))
-                        print("Black user score is now: " + str(black_score))
+                        print(f'Black user score is now: {black_score}')
                         return move_options, black_score
                 else:
                     tokens_in_higher_pos = [1 for i in range(19, token_pos) if player2_board[i - 1] > 1]
@@ -231,7 +231,7 @@ def token_move_final(player1_turn, player1_board, player2_board):
                         black_score += 1
                         player2_board[token_pos - 1] -= 1
                         move_options.remove(max(move_options))
-                        print("Black user score is now: " + str(black_score))
+                        print(f'Black user score is now: {black_score}')
                     else:
                         token_new_pos = int(input("Select new position for this token: "))
                         if token_new_pos < token_pos:
@@ -332,7 +332,7 @@ def token_move_redux(move_options):
     global black_score
     while len(move_options) > 0:
         if red_score < 15 and black_score < 15:
-            print("Moves Available: " + str(move_options))
+            print(f'Moves Available: {move_options}')
             determine_game_state(red_player_turn, red_board, black_board)
             if game_state == "bar":
                 token_move_bar(red_player_turn, red_board, black_board)

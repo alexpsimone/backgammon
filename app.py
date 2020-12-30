@@ -301,10 +301,7 @@ def token_move_bar(player1_turn, player1_board, player2_board):
                 print("You can't move a token there from BAR! Try again!")
 
 
-def determine_game_state(red_player_turn, red_board, black_board):
-    global game_state
-    global red_bar
-    global black_bar
+def determine_game_state(red_bar, black_bar, red_player_turn, red_board, black_board):
 
     if red_player_turn:
         if red_bar > 0:
@@ -324,12 +321,6 @@ def determine_game_state(red_player_turn, red_board, black_board):
                 return "normal"
 
 def token_move_redux(move_options, red_score, black_score, red_bar, black_bar, red_board, black_board, red_player_turn):
-    # global game_state
-    # global red_player_turn
-    # global red_board
-    # global red_score
-    # global black_board
-    # global black_score
 
     while len(move_options) > 0:
 
@@ -337,7 +328,7 @@ def token_move_redux(move_options, red_score, black_score, red_bar, black_bar, r
 
             print(f'Moves Available: {move_options}')
 
-            game_state = determine_game_state(red_player_turn, red_board, black_board)
+            game_state = determine_game_state(red_bar, black_bar, red_player_turn, red_board, black_board)
 
             if game_state == "bar":
                 token_move_bar(red_player_turn, red_board, black_board)

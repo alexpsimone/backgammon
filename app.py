@@ -86,9 +86,9 @@ def board_update(board_array, player1_array, player2_array):
 
     for i in range(len(board_array)):
         if player1_array[i] > 0:
-            board_array[i] = f'R:0 {player1_array[i]}'
+            board_array[i] = f'R:0{player1_array[i]}'
         elif player2_array[i] > 0:
-            board_array[i] = f'B:0 {player2_array[i]}'
+            board_array[i] = f'B:0{player2_array[i]}'
         else:
             if i < 12:
                 board_array[i] = '    '
@@ -475,7 +475,7 @@ else:
 
 board_update(pos, red_board, black_board)
 
-board_flex_B = f'| \ {pos[0]} / \ {pos[1]} / \ {pos[2]} / \ {pos[3]} / \ {pos[4]} / \ {pos[5]} / | \ {pos[6]} / \ {pos[7]} / \ {pos[8]} / \ {pos[9]} / \ {pos[10]} / \ {pos[11]} / |"
+board_flex_B = f'| \ {pos[0]} / \ {pos[1]} / \ {pos[2]} / \ {pos[3]} / \ {pos[4]} / \ {pos[5]} / | \ {pos[6]} / \ {pos[7]} / \ {pos[8]} / \ {pos[9]} / \ {pos[10]} / \ {pos[11]} / |'
 board_flex_D = "|                                                BAR - R: " + str(red_bar) + "  B: " + str(black_bar) + \
                "                                               |"
 board_flex_F = "| /_" + pos[23] + "_\ /_" + pos[22] + "_\ /_" + pos[21] + "_\ /_" + pos[20] + "_\ /_" + pos[19] + \

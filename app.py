@@ -323,39 +323,43 @@ def determine_game_state(red_player_turn, red_board, black_board):
             else:
                 return "normal"
 
-def token_move_redux(move_options):
-    global game_state
-    global red_player_turn
-    global red_board
-    global red_score
-    global black_board
-    global black_score
+def token_move_redux(move_options, red_score, black_score, red_bar, black_bar, red_board, black_board, red_player_turn):
+    # global game_state
+    # global red_player_turn
+    # global red_board
+    # global red_score
+    # global black_board
+    # global black_score
+
     while len(move_options) > 0:
+
         if red_score < 15 and black_score < 15:
+
             print(f'Moves Available: {move_options}')
-            determine_game_state(red_player_turn, red_board, black_board)
+
+            game_state = determine_game_state(red_player_turn, red_board, black_board)
+
             if game_state == "bar":
                 token_move_bar(red_player_turn, red_board, black_board)
             elif game_state == "final":
                 token_move_final(red_player_turn, red_board, black_board)
             else:
-                token_move_main(red_board, black_board)
+                token_move_main(move_options, red_bar, black_bar, red_board, black_board)
+
         else:
             while len(move_options) > 0:
                 move_options.pop()
 
 
-def token_move_main(player1_board, player2_board):
-    global x
-    global move_options
-    global red_bar
-    global black_bar
+def token_move_main(move_options, red_bar, black_bar, player1_board, player2_board):
+
     token_pos = int(input("Select a position from which to move a token: "))
+    
     if red_player_turn:
         if player1_board[token_pos - 1] > 0:
             token_new_pos = int(input("Select a position to move the token to: "))
-            x = abs(int(token_new_pos - token_pos))
-            if x in move_options:
+            spaces_diff = abs(int(token_new_pos - token_pos))
+            if spaces_diff in move_options:
                 if player2_board[token_new_pos - 1] > 1:
                     print("Your opponent has multiple tokens in that location! Try again!")
                 elif token_new_pos > token_pos:
@@ -368,12 +372,12 @@ def token_move_main(player1_board, player2_board):
                     player1_board[token_pos - 1] -= 1
                     player2_board[token_new_pos - 1] -= 1
                     print("Black player token goes to BAR!")
-                    move_options.remove(x)
+                    move_options.remove(spaces_diff)
                     return move_options
                 else:
                     player1_board[token_new_pos - 1] += 1
                     player1_board[token_pos - 1] -= 1
-                    move_options.remove(x)
+                    move_options.remove(spaces_diff)
                     return move_options
             else:
                 print("You have to move a token based on the dice roll values! Try again!")
@@ -382,8 +386,8 @@ def token_move_main(player1_board, player2_board):
     else:
         if player2_board[token_pos - 1] > 0:
             token_new_pos = int(input("Select a position to move the token to: "))
-            x = abs(int(token_new_pos - token_pos))
-            if x in move_options:
+            spaces_diff = abs(int(token_new_pos - token_pos))
+            if spaces_diff in move_options:
                 if player1_board[token_new_pos - 1] > 1:
                     print("Your opponent has multiple tokens in that location! Try again!")
                 elif token_new_pos < token_pos:
@@ -396,14 +400,14 @@ def token_move_main(player1_board, player2_board):
                     player2_board[token_pos - 1] -= 1
                     player1_board[token_new_pos - 1] -= 1
                     print("Red player token goes to BAR!")
-                    x = abs(int(token_new_pos - token_pos))
-                    move_options.remove(x)
+                    spaces_diff = abs(int(token_new_pos - token_pos))
+                    move_options.remove(spaces_diff)
                     return move_options
                 else:
                     player2_board[token_new_pos - 1] += 1
                     player2_board[token_pos - 1] -= 1
-                    x = abs(int(token_new_pos - token_pos))
-                    move_options.remove(x)
+                    spaces_diff = abs(int(token_new_pos - token_pos))
+                    move_options.remove(spaces_diff)
                     return move_options
             else:
                 print("You have to move a token based on the dice roll values! Try again!")
@@ -497,7 +501,7 @@ while red_score < 15 and black_score < 15:
         print(f'Black player rolled a {die1} and a {die2}.')
         print(f'Black player, you have {num_moves} moves this turn.')
 
-    token_move_redux(move_options)
+    token_move_redux(move_options, red_score, black_score, red_bar, black_bar, red_board, black_board, red_player_turn)
 
     if red_player_turn:
         red_player_turn = False

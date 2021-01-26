@@ -5,11 +5,12 @@ def token_move_final_red(move_options, red_score, player1_board):
         token_pos = int(input("Select token to move/remove from board: "))
 
         if player1_board[token_pos-1] > 0:
+
             if token_pos in move_options:
                 red_score += 1
                 player1_board[token_pos - 1] -= 1
                 move_options.remove(token_pos)
-                print("Red user score is now: " + str(red_score))
+                print(f'Red user score is now: {red_score}')
 
             else:
                 user_selec_is_higher = [1 for i in range(0, len(move_options)) if token_pos > move_options[i]]

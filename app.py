@@ -410,13 +410,13 @@ def token_move_main(move_options, red_bar, black_bar, player1_board, player2_boa
                     player2_board[token_pos - 1] -= 1
                     player1_board[token_new_pos - 1] -= 1
                     print("Red player token goes to BAR!")
-                    spaces_diff = abs(int(token_new_pos - token_pos))
+                    # spaces_diff = abs(int(token_new_pos - token_pos))
                     move_options.remove(spaces_diff)
                     return move_options
                 else:
                     player2_board[token_new_pos - 1] += 1
                     player2_board[token_pos - 1] -= 1
-                    spaces_diff = abs(int(token_new_pos - token_pos))
+                    # spaces_diff = abs(int(token_new_pos - token_pos))
                     move_options.remove(spaces_diff)
                     return move_options
             else:
@@ -502,6 +502,7 @@ while red_score < 15 and black_score < 15:
     # {'move_options': move_options, 'die1': die1, 'die2': die2, 'num_moves': num_moves}
     print_board(board_static_A, board_flex_B, board_static_C, board_flex_D,
                 board_static_E, board_flex_F, board_static_G)
+
     if red_player_turn:
         print(f'Red player rolled a {die1} and a {die2}.')
         print(f'Red player, you have {num_moves} moves this turn.')

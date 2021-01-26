@@ -1,3 +1,21 @@
+def is_valid_move_red(token_pos, token_new_pos, move_options):
+    """A function to determine if a token move is valid (red player only)."""
+
+    if token_new_pos > token_pos:
+        print("You can't move your token in that direction! Try again!")
+
+    elif token_new_pos < 1:
+        print("You can't move your token off the board like that! Try again!")
+
+    elif (token_pos-token_new_pos) in move_options:
+        return True
+
+    else:
+        print("You have to move a token based on the dice roll values! Try again!")
+
+    return False
+
+
 def token_move_final_red(move_options, red_score, player1_board):
 
     while move_options != []:
@@ -14,6 +32,7 @@ def token_move_final_red(move_options, red_score, player1_board):
 
             else:
                 user_selec_is_higher = [1 for i in range(0, len(move_options)) if token_pos > move_options[i]]
+
                 if len(user_selec_is_higher) == len(move_options):
                     token_new_pos = int(input("Select new position for this token: "))
                     if token_new_pos > token_pos:
@@ -44,16 +63,11 @@ def token_move_final_red(move_options, red_score, player1_board):
                         print(f'Red user score is now: {red_score}')
                     else:
                         token_new_pos = int(input("Select new position for this token: "))
-                        if token_new_pos > token_pos:
-                            print("You can't move your token in that direction! Try again!")
-                        elif token_new_pos < 1:
-                            print("You can't move your token off the board like that! Try again!")
-                        elif (token_pos-token_new_pos) in move_options:
+                        
+                        if is_valid_move_red(token_pos, token_new_pos, move_options):
                             player1_board[token_pos - 1] -= 1
                             player1_board[token_new_pos - 1] += 1
                             move_options.remove(token_pos - token_new_pos)
-                        else:
-                            print("You have to move a token based on the dice roll values! Try again!")
         else:
             print("You don't have a token there! Try again!")
     

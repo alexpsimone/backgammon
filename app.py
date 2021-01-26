@@ -486,11 +486,8 @@ else:
 board_update(pos, red_board, black_board)
 
 board_flex_B = f'| \ {pos[0]} / \ {pos[1]} / \ {pos[2]} / \ {pos[3]} / \ {pos[4]} / \ {pos[5]} / | \ {pos[6]} / \ {pos[7]} / \ {pos[8]} / \ {pos[9]} / \ {pos[10]} / \ {pos[11]} / |'
-board_flex_D = "|                                                BAR - R: " + str(red_bar) + "  B: " + str(black_bar) + \
-               "                                               |"
-board_flex_F = "| /_" + pos[23] + "_\ /_" + pos[22] + "_\ /_" + pos[21] + "_\ /_" + pos[20] + "_\ /_" + pos[19] + \
-               "_\ /_" + pos[18] + "_\ | /_" + pos[17] + "_\ /_" + pos[16] + "_\ /_" + pos[15] + "_\ /_" + pos[14] + \
-               "_\ /_" + pos[13] + "_\ /_" + pos[12] + "_\ |"
+board_flex_D = f'|                                                BAR - R: {red_bar}  B: {black_bar}                                                               |'
+board_flex_F = f'| /_ {pos[23]}_\ /_{pos[22]}_\ /_{pos[21]}_\ /_{pos[20]}_\ /_{pos[19]}_\ /_{pos[18]}_\ | /_{pos[17]}_\ /_{pos[16]}_\ /_{pos[15]}_\ /_{pos[14]}_\ /_{pos[13]}_\ /_{pos[12]}_\ |'
 
 is_final = False
 

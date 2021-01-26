@@ -1,7 +1,5 @@
-def token_move_final(player1_turn, player1_board, player2_board):
-    global move_options
-    global red_score
-    global black_score
+def token_move_final(move_options, red_score, black_score, player1_turn, player1_board, player2_board):
+
     token_pos = int(input("Select token to move/remove from board: "))
     if player1_turn:
         if player1_board[token_pos-1] > 0:
